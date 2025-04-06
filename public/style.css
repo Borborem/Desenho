@@ -1,0 +1,61 @@
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+#canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  border: 2px solid #000;
+  box-sizing: border-box;
+}
+
+#loginScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#loginScreen input {
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+#loginScreen button {
+  padding: 10px 20px;
+}
+
+#colorPicker, #toggleTool, #clearCanvas {
+  position: fixed;
+  top: 10px;
+  z-index: 10;
+}
+
+#colorPicker { left: 10px; }
+#toggleTool { left: 100px; }
+#clearCanvas { left: 200px; }
+
+#cursorPreview {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #333;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999;
+  display: none;
+}

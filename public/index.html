@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Salas de Desenho</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="loginScreen">
+    <input id="nameInput" placeholder="Seu nome">
+    <input id="roomInput" placeholder="Nome da sala">
+    <button id="joinBtn">Entrar</button>
+  </div>
+  <input type="color" id="colorPicker" value="#000000">
+  <button id="toggleTool">Borracha</button>
+  <button id="clearCanvas">Limpar</button>
+  <canvas id="canvas"></canvas>
+  <div id="cursorPreview"></div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
