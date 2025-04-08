@@ -59,3 +59,13 @@ body {
   z-index: 999;
   display: none;
 }
+
+#lineWidth {
+  width: 100px;
+}
+
+#opacitySlider {
+  width: 100px;
+}
+
+
