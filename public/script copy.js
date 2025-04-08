@@ -28,9 +28,8 @@ document.getElementById('joinBtn').addEventListener('click', () => {
 
 });
 
-socket.on('draw', ({ from, to, color, isEraser, user, lineWidth, opacity }) => {
-  drawLine(from, to, isEraser ? '#ffffff' : color, user, lineWidth, opacity);
-
+socket.on('draw', ({ from, to, color, isEraser, user }) => {
+  drawLine(from, to, isEraser ? '#ffffff' : color, user);
   drawingUser = { name: user, position: to };
   if (showUserTimeout) clearTimeout(showUserTimeout);
   showUserTimeout = setTimeout(() => { drawingUser = null; }, 500);
@@ -44,26 +43,14 @@ canvas.addEventListener('mouseup', () => {
   drawing = false;
   prev = null; // Reseta o ponto anterior ao soltar o mouse
 });
-
 canvas.addEventListener('mousemove', (e) => {
   if (!drawing || !prev) return;
 
   const curr = { x: e.clientX, y: e.clientY };
   const color = isEraser ? '#ffffff' : colorPicker.value;
-  const lineWidth = parseInt(lineWidthSlider.value); // Obtém a espessura
-  const opacity = parseFloat(opacitySlider.value);  // Obtém a opacidade
-
-  drawLine(prev, curr, color, userName, lineWidth, opacity); // Desenha localmente com os valores corretos
-  socket.emit('draw', {
-    from: prev,
-    to: curr,
-    color,
-    isEraser,
-    user: userName,
-    room: roomName,
-    lineWidth, // Envia a espessura
-    opacity,   // Envia a opacidade
-  });
+ // drawDot({ x: e.clientX, y: e.clientY }, isEraser ? '#ffffff' : colorPicker.value);
+  drawLine(prev, curr, color); // Desenha a linha ou drawDot
+  socket.emit('draw', { from: prev, to: curr, color, isEraser, user: userName, room: roomName });
   prev = curr; // Atualiza o ponto anterior
 });
 
@@ -77,20 +64,22 @@ function drawDot(point, color) {
   ctx.globalAlpha = 1.0;
 }
 
-function drawLine(from, to, color, user, lineWidth, opacity) {
+function drawLine(from, to, color, user) {
   ctx.strokeStyle = color;
-  ctx.lineWidth = lineWidth; // Usa o valor recebido
-  ctx.globalAlpha = opacity; // Usa o valor recebido
+//ctx.lineWidth = 2;
+  ctx.lineWidth = parseInt(lineWidthSlider.value); // 👈 usa o valor do slider
+  ctx.globalAlpha = parseFloat(opacitySlider.value); // 👈 controla opacidade
 
-  ctx.lineCap = 'round'; // Suaviza as extremidades
-  ctx.lineJoin = 'round'; // Suaviza as junções
+  ctx.lineCap = 'round';//smooth
+  ctx.lineJoin = 'round';//smooth
 
   ctx.beginPath();
   ctx.moveTo(from.x, from.y);
   ctx.lineTo(to.x, to.y);
   ctx.stroke();
 
-  ctx.globalAlpha = 1.0; // Reseta a opacidade após o traço
+  ctx.globalAlpha = 1.0; // 🔁 resetar depois do traço
+
 }
 
 // function drawLine(from, to, color, user) {
